@@ -81,7 +81,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("google", "dsk"), messaging = FALSE,
     force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
     override_limit = FALSE,
-    client = "", signature = "", nameType = c("long", "short"), data, api_key
+    client = "", signature = "", nameType = c("long", "short"), data
 ){
 
   # basic parameter check
@@ -171,7 +171,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
 
   if(source == "google"){
-    url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?address=", posturl, "&key=", api_key, sep = "")
+    url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?address=", posturl, "&key=", myAPIkey, sep = "")
   } else if(source == "dsk"){
     url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
   }

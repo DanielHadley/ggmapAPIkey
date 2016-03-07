@@ -7,7 +7,7 @@
 #' Maps API Terms of Service at
 #' \url{https://developers.google.com/maps/terms}.
 #'
-#' Note that the Google Maps api limits to 2500 queries a day. Use
+#' Note that the Google Maps api limits to 100000 queries a day. Use
 #' \code{geocodeQueryCheck} to determine how many queries remain.
 #'
 #' @param location a character vector of street addresses or place
@@ -81,7 +81,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
     source = c("google", "dsk"), messaging = FALSE,
     force = ifelse(source == "dsk", FALSE, TRUE), sensor = FALSE,
     override_limit = FALSE,
-    client = "", signature = "", nameType = c("long", "short"), data
+    client = "", signature = "", nameType = c("long", "short"), data, api_key
 ){
 
   # basic parameter check
@@ -137,7 +137,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(length(location) > 1){
     # set limit
     if(userType == "free"){
-      limit <- "2500"
+      limit <- "100000"
     } else if(userType == "business"){
       limit <- "100000"
     }
@@ -171,7 +171,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
 
   if(source == "google"){
-    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, sep = "")
+    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, "&key=", api_key, sep = "")
   } else if(source == "dsk"){
     url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
   }
@@ -313,7 +313,7 @@ checkGeocodeQueryLimit <- function(url_hash, elems, override, messaging, userTyp
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount); # R CMD check trick
 
   stopifnot(userType %in% c("free", "business"))
-  limit <- c("free" = 2500, "business" = 1E5)[userType]
+  limit <- c("free" = 100000, "business" = 1E5)[userType]
 
   if(exists(".GoogleGeocodeQueryCount", .GlobalEnv)){
 
@@ -380,7 +380,7 @@ geocodeQueryCheck <- function(userType = "free"){
   .GoogleGeocodeQueryCount <- NULL; rm(.GoogleGeocodeQueryCount);
 
   stopifnot(userType %in% c("free", "business"))
-  limit <- c("free" = 2500, "business" = 1E5)[userType]
+  limit <- c("free" = 100000, "business" = 1E5)[userType]
 
   if(exists(".GoogleGeocodeQueryCount", .GlobalEnv)){
 

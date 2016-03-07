@@ -171,7 +171,7 @@ geocode <- function(location, output = c("latlon", "latlona", "more", "all"),
   if(userType == "business") posturl <- paste(posturl, client4url, signature4url, sep = "&")
 
   if(source == "google"){
-    url_string <- paste("http://maps.googleapis.com/maps/api/geocode/json?address=", posturl, "&key=", api_key, sep = "")
+    url_string <- paste("https://maps.googleapis.com/maps/api/geocode/json?address=", posturl, "&key=", api_key, sep = "")
   } else if(source == "dsk"){
     url_string <- paste("http://www.datasciencetoolkit.org/maps/api/geocode/json?address=", posturl, sep = "")
   }

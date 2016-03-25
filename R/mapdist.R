@@ -23,7 +23,7 @@
 #'   coordinates, they are reverse geocoded with revgeocode.  note
 #'   that the google maps api limits to 100000 element queries a day.
 #' @seealso
-#' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#' \url{https://code.google.com/apis/maps/documentation/distancematrix/}
 #'
 #' @export
 #' @examples
@@ -57,7 +57,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
 {
 
   message("by using this function you are agreeing to the terms at :")
-  message("http://code.google.com/apis/maps/documentation/distancematrix/\n")
+  message("https://code.google.com/apis/maps/documentation/distancematrix/\n")
 
   # check parameters
   if(is.numeric(from) && length(from) == 2) from <- revgeocode(from)
@@ -88,7 +88,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
     lang4url <- paste("language=", language, sep = "")
     sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
     posturl <- paste(origin, destinations, mode4url, sensor4url, sep = "&")
-    url_string <- paste("http://maps.googleapis.com/maps/api/distancematrix/json?",
+    url_string <- paste("https://maps.googleapis.com/maps/api/distancematrix/json?",
       posturl, "&key=", myAPIkey, sep = "")
     url_string <- URLencode(url_string)
 
@@ -212,7 +212,7 @@ check_dist_query_limit <- function(url_string, elems, override, messaging){
 #'
 #' @return a data frame
 #' @author David Kahle \email{david.kahle@@gmail.com}
-#' @seealso \url{http://code.google.com/apis/maps/documentation/distancematrix/}
+#' @seealso \url{https://code.google.com/apis/maps/documentation/distancematrix/}
 #' @export
 #' @examples
 #' distQueryCheck()

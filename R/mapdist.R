@@ -21,7 +21,7 @@
 #' @author David Kahle \email{david.kahle@@gmail.com}
 #' @details if parameters from and to are specified as geographic
 #'   coordinates, they are reverse geocoded with revgeocode.  note
-#'   that the google maps api limits to 2500 element queries a day.
+#'   that the google maps api limits to 100000 element queries a day.
 #' @seealso
 #' \url{http://code.google.com/apis/maps/documentation/distancematrix/}
 #'
@@ -89,7 +89,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
     sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
     posturl <- paste(origin, destinations, mode4url, sensor4url, sep = "&")
     url_string <- paste("http://maps.googleapis.com/maps/api/distancematrix/json?",
-      posturl, sep = "")
+      posturl, "&key=", myAPIkey, sep = "")
     url_string <- URLencode(url_string)
 
 
@@ -172,8 +172,8 @@ check_dist_query_limit <- function(url_string, elems, override, messaging){
     .GoogleDistQueryCount <<-
       subset(.GoogleDistQueryCount, time >= Sys.time() - 24*60*60)
 
-    # 2500 per 24 hours
-    if(sum(.GoogleDistQueryCount$elements) + elems > 2500){
+    # 100000 per 24 hours
+    if(sum(.GoogleDistQueryCount$elements) + elems > 100000){
       message("query max exceeded, see ?mapdist.  current total = ",
         sum(.GoogleDistQueryCount$elements))
       if(!override) stop("google query limit exceeded.", call. = FALSE)
@@ -219,12 +219,12 @@ check_dist_query_limit <- function(url_string, elems, override, messaging){
 distQueryCheck <- function(){
   .GoogleDistQueryCount <- NULL; rm(.GoogleDistQueryCount); # R CMD check trick
   if(exists(".GoogleDistQueryCount", .GlobalEnv)){
-  	remaining <- 2500-sum(
+  	remaining <- 100000-sum(
   	  subset(.GoogleDistQueryCount, time >= Sys.time() - 24*60*60)$elements
   	  )
     message(remaining, " distance queries remaining.")
   } else {
-  	remaining <- 2500
+  	remaining <- 100000
     message(remaining, " distance queries remaining.")
   }
   invisible(remaining)

@@ -89,7 +89,7 @@ mapdist <- function(from, to, mode = c("driving","walking","bicycling"),
     sensor4url <- paste("sensor=", tolower(as.character(sensor)), sep = "")
     posturl <- paste(origin, destinations, mode4url, sensor4url, sep = "&")
     url_string <- paste("https://maps.googleapis.com/maps/api/distancematrix/json?",
-      posturl, other_options_and_myAPIkey, sep = "")
+      posturl, "&key=", myAPIkey, sep = "")
     url_string <- URLencode(url_string)
 
 
